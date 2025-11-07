@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "assignment2"
+rootProject.name = "SpotFinder"
 include(":app")
- 
