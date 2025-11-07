@@ -1,26 +1,29 @@
 package com.example.spotfinder.data
 
-import com.example.spotfinder.data.local.LocationDao
-import com.example.spotfinder.data.local.LocationEntity
 import kotlinx.coroutines.flow.Flow
 
 class LocationRepository(private val locationDao: LocationDao) {
+    fun observeLocations(): Flow<List<LocationEntity>> = locationDao.observeAll()
 
-    suspend fun getAllLocations(): List<LocationEntity> = locationDao.getAllLocations()
+    suspend fun findLocation(address: String): LocationEntity? =
+        locationDao.findByAddress(address)
 
-    fun observeLocations(): Flow<List<LocationEntity>> = locationDao.observeLocations()
-
-    suspend fun getLocationByAddress(address: String): LocationEntity? =
-        locationDao.getLocationByAddress(address.trim())
-
-    suspend fun addLocation(location: LocationEntity): Boolean =
-        locationDao.insertLocation(location) != -1L
-
-    suspend fun updateLocation(location: LocationEntity) {
-        locationDao.updateLocation(location)
+    suspend fun insertLocation(address: String, latitude: Double, longitude: Double): LocationEntity? {
+        val entity = LocationEntity(address = address, latitude = latitude, longitude = longitude)
+        val id = locationDao.insert(entity)
+        return if (id != -1L) entity.copy(id = id.toInt()) else null
     }
 
-    suspend fun deleteLocation(location: LocationEntity) {
-        locationDao.deleteLocation(location)
+    suspend fun updateLocation(address: String, latitude: Double, longitude: Double): LocationEntity? {
+        val existing = locationDao.findByAddress(address) ?: return null
+        val updated = existing.copy(latitude = latitude, longitude = longitude)
+        locationDao.update(updated)
+        return updated
+    }
+
+    suspend fun deleteLocation(address: String): Boolean {
+        val existing = locationDao.findByAddress(address) ?: return false
+        locationDao.delete(existing)
+        return true
     }
 }
