@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">assignment2</string>
+    <string name="app_name">SpotFinder</string>
+    <string name="form_header">Manage stored GTA locations</string>
+    <string name="hint_address">Street address and city</string>
+    <string name="hint_latitude">Latitude</string>
+    <string name="hint_longitude">Longitude</string>
+    <string name="action_search">Search</string>
+    <string name="action_add">Add</string>
+    <string name="action_update">Update</string>
+    <string name="action_delete">Delete</string>
+    <string name="validation_address">Enter an address first.</string>
+    <string name="validation_latitude">Latitude must be between -90 and 90.</string>
+    <string name="validation_longitude">Longitude must be between -180 and 180.</string>
 </resources>
